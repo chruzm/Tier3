@@ -138,6 +138,8 @@ public class DatabaseConnection {
         otochef.setPrice(rs.getInt("price"));
         otochef.setItems(convertByte(rs.getBytes("foods")));
         otochef.setAdr(convertByte(rs.getBytes("adr")));
+        otochef.setEmail(convertByte(rs.getBytes("email")));
+        otochef.setPhone(convertByte(rs.getBytes("tlf")));
         OTOCHEF.add(otochef);
       }
       //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
