@@ -20,11 +20,15 @@ public class RunServer {
         //send order til chefen, og aomount til chefen
         Endpoint.publish("http://localhost:9990/ws/orders", new SendOrderImpl());
         Endpoint.publish("http://localhost:9990/ws/amount", new SendAmountImpl());
+        //send reviews til klient
+        Endpoint.publish("http://localhost:9990/ws/r", new SendReviewsImpl());
         System.out.println("serice: http://localhost:9990/ws/getmenu");
         System.out.println("serice:  http://localhost:9990/ws/addorder");
         System.out.println("serice: http://localhost:9990/ws/orders");
         System.out.println("serice: http://localhost:9990/ws/amount");
+        System.out.println("serice: http://localhost:9990/ws/r");
         db.retrieveOrders();
+        db.retrieveReviews();
         db.sendAmount();
 
 

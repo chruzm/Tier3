@@ -2,6 +2,7 @@ package Database;
 
 import models.MenuObject;
 import models.OrderObject;
+import models.ReviewObject;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -16,11 +17,10 @@ public class DatabaseConnection {
   private static ArrayList<MenuObject> menu = new ArrayList<>();
   private static ArrayList<OrderObject> orders = new ArrayList<>();
   private static ArrayList<OrderObject> OTOCHEF = new ArrayList<>();
-  private OrderObject o = new OrderObject();
+  private static ArrayList<ReviewObject> rews = new ArrayList<>();
+  private static ArrayList<ReviewObject> reviews2client = new ArrayList<>();
   private Connection c = null;
   private Statement stmt = null;
-  public String S;
-  private int x;
 
 
   //connect database virker
@@ -76,6 +76,15 @@ public class DatabaseConnection {
     return menu.get(a);
   }
 
+  //send review virker
+  public synchronized ReviewObject sendReview(int a) {
+    System.out.println("---");
+    for (int y = 0; y < menu.size(); y++)
+      System.out.println(menu.get(y).getFood());
+
+    return reviews2client.get(a);
+  }
+
   //virker
   public synchronized void getOrder(OrderObject ordo)
   {
@@ -83,6 +92,12 @@ public class DatabaseConnection {
     orders.add(ordo);
   }
 
+  //virker
+  public synchronized void getReviews(ReviewObject rew)
+  {
+    rews.clear();
+    rews.add(rew);
+  }
   //works
   public synchronized void storeOrder() {
     String SQL_INSERT = "INSERT INTO orders (ordernumber, price, foods, adr, email, tlf) VALUES (?,?,?,?,?,?)";
@@ -112,6 +127,9 @@ public class DatabaseConnection {
     }
   }
 
+  /*
+  retrieve orders fra databasen
+   */
   //CONNECTED*****************************************************
   public synchronized void retrieveOrders() throws SQLException {
     String SQL = "SELECT * FROM orders";
@@ -146,6 +164,53 @@ public class DatabaseConnection {
     }
     //CONNECTED******************************************************
 
+  /*
+  retrieve reviews
+   */
+  //CONNECTED*****************************************************
+  public synchronized void retrieveReviews() throws SQLException {
+    String SQL = "SELECT * FROM reviews";
+    //for at se om der bliver tilføjet i listen når klient tilføjkr order
+    try (Connection conn = connectDB();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(SQL)) {
+      // display actor information
+      displayO(rs);
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
+  private synchronized void displayR(ResultSet rs) throws SQLException {
+    reviews2client.clear();
+    while (rs.next()) {
+      ReviewObject rew= new ReviewObject();
+        /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
+                + "Price: "+rs.getInt("price") + "\t"
+                + "items(encoded): "+rs.getBytes("foods")+ "\t"
+                + "adress(encoded): "+rs.getBytes("adr")
+        );*/
+      rew.setName(convertByte(rs.getBytes("name")));
+      rew.setReview(convertByte(rs.getBytes("rewview")));
+      System.out.println(reviews2client.get(1).getReview());
+      reviews2client.add(rew);
+    }
+    //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
+  }
+  //CONNECTED******************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public synchronized String convertByte(byte[] bytes){
       String s = new String(bytes, StandardCharsets.UTF_8);
@@ -169,9 +234,7 @@ public class DatabaseConnection {
     System.out.println("size of list holding orders2chef: "+OTOCHEF.size());
     return OTOCHEF.size();
   }
-
-
-  }
+}
 
 
 

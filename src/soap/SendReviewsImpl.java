@@ -8,9 +8,8 @@ import models.ReviewObject;
 import javax.jws.WebService;
 
 @WebService(endpointInterface = "soap.Interface")
-public class SendAmountImpl implements Interface {
-    private DatabaseConnection db = new DatabaseConnection();
-
+public class SendReviewsImpl implements Interface{
+    DatabaseConnection db = new DatabaseConnection();
     @Override
     public String getTestList() {
         return null;
@@ -33,10 +32,11 @@ public class SendAmountImpl implements Interface {
 
     @Override
     public int sendAmount() {
-        return db.sendAmount();
+        return 0;
     }
+
     @Override
     public ReviewObject sendReview(int a) {
-        return null;
+        return db.sendReview(a);
     }
 }
