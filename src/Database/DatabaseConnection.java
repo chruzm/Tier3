@@ -207,24 +207,24 @@ public class DatabaseConnection {
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(SQL)) {
       // display actor information
-      displayO(rs);
+      displayR(rs);
     } catch (SQLException ex) {
-      System.out.println(ex.getMessage());
+      System.out.println("exception from retrieveReviews: "+ ex.getMessage());
     }
   }
   private synchronized void displayR(ResultSet rs) throws SQLException {
-    reviews2client.clear();
     while (rs.next()) {
-      ReviewObject rew= new ReviewObject();
+      ReviewObject rev = new ReviewObject();
         /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
                 + "Price: "+rs.getInt("price") + "\t"
                 + "items(encoded): "+rs.getBytes("foods")+ "\t"
                 + "adress(encoded): "+rs.getBytes("adr")
         );*/
-      rew.setName(convertByte(rs.getBytes("name")));
-      rew.setReview(convertByte(rs.getBytes("rewview")));
-      System.out.println(reviews2client.get(1).getReview());
-      reviews2client.add(rew);
+      rev.setId(rs.getInt("id"));
+      rev.setName(convertByte(rs.getBytes("name")));
+      rev.setReview(convertByte(rs.getBytes("review")));
+      reviews2client.add(rev);
+      System.out.println("size of reviews list to client:  "+rev.getReview()+"/////"+rev.getId()+"////"+rev.getName());
     }
     //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
   }
