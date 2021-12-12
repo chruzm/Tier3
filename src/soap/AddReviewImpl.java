@@ -9,8 +9,9 @@ import javax.jws.WebService;
 import java.sql.SQLException;
 import java.util.Random;
 
+
 @WebService(endpointInterface = "soap.Interface")
-public class AddOrderImpl implements Interface {
+public class AddReviewImpl implements Interface {
     private DatabaseConnection db = new DatabaseConnection();
 
     @Override
@@ -25,25 +26,13 @@ public class AddOrderImpl implements Interface {
 
     @Override
     public OrderObject addOrder(OrderObject o) {
-
-        Random number = new Random();
-        o.setOrdernumber(number.nextInt(100000)+1);
-        System.out.println("adding order");
-        //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
-        db.getOrder(o);
-        System.out.println("received ordernumber: "+o.getOrderNumber());
-        db.storeOrder();
-        System.out.println(o.getOrderNumber());
-        try {
-            db.retrieveOrders();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return o;
+        return null;
     }
 
     @Override
-    public OrderObject sendOrder(int a){return null;}
+    public OrderObject sendOrder(int a) {
+        return null;
+    }
 
     @Override
     public int sendAmount() {
@@ -57,8 +46,20 @@ public class AddOrderImpl implements Interface {
 
     @Override
     public ReviewObject addReview(ReviewObject r) {
-        return null;
-    }
+        Random number = new Random();
+        //o.setOrdernumber(number.nextInt(100000)+1);
+        System.out.println("adding review #"+r.getId());
+        //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
+        db.getReviews(r);
+        System.out.println("received review: "+r.getId());
+        db.storeReview();
+        System.out.println(r.getReview());
 
-    ;
+        /*try {
+            db.retrieveOrders();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }*/
+        return r;
+    }
 }

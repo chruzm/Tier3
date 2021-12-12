@@ -24,5 +24,7 @@ public interface Interface {
     int sendAmount();
     @WebMethod
     ReviewObject sendReview(int a);
+    @WebMethod
+    ReviewObject addReview(ReviewObject r);
 
 }

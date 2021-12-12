@@ -39,5 +39,11 @@ public class GetMenuImpl  implements Interface {
     public ReviewObject sendReview(int a) {
         return null;
     }
+
+    @Override
+    public ReviewObject addReview(ReviewObject r) {
+        return null;
+    }
+
     ;
 }

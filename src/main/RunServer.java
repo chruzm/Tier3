@@ -22,11 +22,14 @@ public class RunServer {
         Endpoint.publish("http://localhost:9990/ws/amount", new SendAmountImpl());
         //send reviews til klient
         Endpoint.publish("http://localhost:9990/ws/r", new SendReviewsImpl());
-        System.out.println("serice: http://localhost:9990/ws/getmenu");
-        System.out.println("serice:  http://localhost:9990/ws/addorder");
-        System.out.println("serice: http://localhost:9990/ws/orders");
-        System.out.println("serice: http://localhost:9990/ws/amount");
-        System.out.println("serice: http://localhost:9990/ws/r");
+        //modtag reviews fra klient
+        Endpoint.publish("http://localhost:9990/ws/re", new AddReviewImpl());
+        System.out.println("service: http://localhost:9990/ws/getmenu");
+        System.out.println("service:  http://localhost:9990/ws/addorder");
+        System.out.println("service: http://localhost:9990/ws/orders");
+        System.out.println("service: http://localhost:9990/ws/amount");
+        System.out.println("service: http://localhost:9990/ws/re");
+        System.out.println();
         db.retrieveOrders();
         db.retrieveReviews();
         db.sendAmount();

@@ -79,8 +79,8 @@ public class DatabaseConnection {
   //send review virker
   public synchronized ReviewObject sendReview(int a) {
     System.out.println("---");
-    for (int y = 0; y < menu.size(); y++)
-      System.out.println(menu.get(y).getFood());
+    for (int y = 0; y < reviews2client.size(); y++)
+      System.out.println(reviews2client.get(y).getName());
 
     return reviews2client.get(a);
   }
@@ -127,6 +127,35 @@ public class DatabaseConnection {
     }
   }
 
+  public synchronized void storeReview() {
+    String SQL_INSERT = "INSERT INTO reviews (id, name, review) VALUES (?,?,?)";
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/postgres", "postgres", "mxn88scrhder883");
+         PreparedStatement preparedStatement = conn.prepareStatement(SQL_INSERT)) {
+
+      for (int a = 0; a < rews.size(); a++) {
+        preparedStatement.setInt(1, rews.get(a).getId());
+        preparedStatement.setBytes(2, rews.get(a).getName().getBytes());
+        preparedStatement.setBytes(3, rews.get(a).getReview().getBytes());
+
+
+        int row = preparedStatement.executeUpdate();
+
+        // rows affected
+        System.out.println("rows påvirket i databasetabel 'orders': "+row); //1
+      }
+    } catch (SQLException e) {
+      System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+
+
+
+
   /*
   retrieve orders fra databasen
    */
@@ -143,8 +172,9 @@ public class DatabaseConnection {
       System.out.println(ex.getMessage());
     }
   }
-    private synchronized void displayO(ResultSet rs) throws SQLException {
-    OTOCHEF.clear();
+
+  private synchronized void displayO(ResultSet rs) throws SQLException {
+
       while (rs.next()) {
         OrderObject otochef = new OrderObject();
         /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
@@ -159,10 +189,12 @@ public class DatabaseConnection {
         otochef.setEmail(convertByte(rs.getBytes("email")));
         otochef.setPhone(convertByte(rs.getBytes("tlf")));
         OTOCHEF.add(otochef);
+        System.out.println("size of list to chef "+OTOCHEF.size());
       }
       //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
     }
     //CONNECTED******************************************************
+
 
   /*
   retrieve reviews
@@ -197,18 +229,6 @@ public class DatabaseConnection {
     //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
   }
   //CONNECTED******************************************************
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

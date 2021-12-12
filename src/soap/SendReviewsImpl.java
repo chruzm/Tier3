@@ -39,4 +39,9 @@ public class SendReviewsImpl implements Interface{
     public ReviewObject sendReview(int a) {
         return db.sendReview(a);
     }
+
+    @Override
+    public ReviewObject addReview(ReviewObject r) {
+        return null;
+    }
 }

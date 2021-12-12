@@ -28,7 +28,7 @@ public class SendOrderImpl implements Interface {
 
     @Override
     public OrderObject sendOrder(int a) {
-        System.out.println(db.sendOrder(2).getOrderNumber());
+        //System.out.println(db.sendOrder(2).getOrderNumber());
         return db.sendOrder(a);
     }
 
@@ -39,6 +39,11 @@ public class SendOrderImpl implements Interface {
 
     @Override
     public ReviewObject sendReview(int a) {
+        return null;
+    }
+
+    @Override
+    public ReviewObject addReview(ReviewObject r) {
         return null;
     }
 
