@@ -175,6 +175,7 @@ public class DatabaseConnection {
 
   private synchronized void displayO(ResultSet rs) throws SQLException {
 
+    OTOCHEF.clear();
       while (rs.next()) {
         OrderObject otochef = new OrderObject();
         /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
@@ -240,6 +241,7 @@ public class DatabaseConnection {
 
   //sendorder virker nu
   public OrderObject sendOrder(int a) {
+    //OTOCHEF.clear();
     System.out.println("---");
     for (int y = 0; y < OTOCHEF.size(); y++){
       System.out.println(OTOCHEF.size());
